@@ -2,7 +2,7 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
 
-export const Layout = (props, {children}) => {
+export const Layout = ({children}) => {
   return (
     <div id="wrapper">
       <Sidebar />
