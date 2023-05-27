@@ -6,7 +6,7 @@ export const Layout = ({children}) => {
   return (
     <div id="wrapper">
       <Sidebar />
-      <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content-wrapper" className="d-flex flex-column">
         <Header />
         <div id="content">{children}</div>
 
