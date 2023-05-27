@@ -6,12 +6,19 @@ import { Loading } from "../../components/Loading";
 import { getUsers } from "../../services/users.service";
 import { generateCards } from "../../helpers/dashboard.helper";
 import { Alert } from "../../components/Alert";
+import { ShowError } from "../../components/Error";
 
 export const Dashboard = () => {
   const [products, setProducts] = useState(null);
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [cardsData, setCardsData] = useState([]);
+  const [alert, setAlert] = useState({
+    show: false,
+    type: "",
+    message: "",
+  });
 
   const [lastProductCreated, setLastProductCreated] = useState();
   const [lastUserCreated, setLastUserCreated] = useState();
@@ -30,7 +37,13 @@ export const Dashboard = () => {
         setUsers(usersResponse);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error)
+        setError(true);
+        setAlert({
+            message: "Ocurrió un error al obtener la información",
+            type: "danger",
+            show: true,
+        })
       })
       .finally(setIsLoading(false));
   }, []);
@@ -40,17 +53,18 @@ export const Dashboard = () => {
     const { products: productsList } = products;
     const { users: usersList } = users;
     const cards = generateCards(products, users);
-    
+
     setLastProductCreated(productsList[0]);
     setLastUserCreated(usersList[0]);
     setCardsData(cards);
   }, [products, users]);
 
+  if (error) return <ShowError />;
   if (isLoading) return <Loading />;
 
   return (
     <div className="container-fluid">
-      <Alert type="danger" message="Probando alerta" />
+      <Alert alert={alert} setAlert={setAlert} />
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Artística Dalí Dashboard</h1>
       </div>

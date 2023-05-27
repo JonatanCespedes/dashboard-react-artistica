@@ -7,6 +7,7 @@ export const getProducts = async () => {
         return json;
         
     } catch (error) {
-        console.error("Error while fetching products")
+        console.error("Error while fetching products");
+        return Promise.reject("Error while fetching products")
     }
 }

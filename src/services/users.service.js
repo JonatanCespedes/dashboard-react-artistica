@@ -7,6 +7,7 @@ export const getUsers = async () => {
         return json;
         
     } catch (error) {
-        console.error("Error while fetching users")
+        console.error("Error while fetching users");
+        return Promise.reject("Error while fetching users");
     }
 }

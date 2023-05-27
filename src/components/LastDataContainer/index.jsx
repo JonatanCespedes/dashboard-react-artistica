@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Loading } from '../Loading';
 
 export const LastDataContainer = ({type, data}) => {
 	const [ infoToDisplay, setInfoToDisplay ] = useState({
@@ -29,8 +28,6 @@ export const LastDataContainer = ({type, data}) => {
 			})
 		}
 	}, [data]);
-
-	if(!data) return <Loading />;
 
     return (
         <div className="col-lg-6 mb-4">
