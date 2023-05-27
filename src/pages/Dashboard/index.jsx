@@ -40,6 +40,7 @@ export const Dashboard = () => {
     const { products: productsList } = products;
     const { users: usersList } = users;
     const cards = generateCards(products, users);
+    
     setLastProductCreated(productsList[0]);
     setLastUserCreated(usersList[0]);
     setCardsData(cards);
