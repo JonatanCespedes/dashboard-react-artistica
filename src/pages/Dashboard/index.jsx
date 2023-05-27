@@ -7,6 +7,7 @@ import { getUsers } from "../../services/users.service";
 import { generateCards } from "../../helpers/dashboard.helper";
 import { Alert } from "../../components/Alert";
 import { ShowError } from "../../components/Error";
+import { CategoriesChart } from "../../components/CategoriesChart";
 
 export const Dashboard = () => {
   const [products, setProducts] = useState(null);
@@ -56,8 +57,8 @@ export const Dashboard = () => {
     const { users: usersList } = users;
     const cards = generateCards(products, users);
 
-    setLastProductCreated(productsList[0]);
-    setLastUserCreated(usersList[0]);
+    setLastProductCreated(productsList.pop());
+    setLastUserCreated(usersList.pop());
     setCardsData(cards);
   }, [products, users]);
 
@@ -69,19 +70,20 @@ export const Dashboard = () => {
       {error && <ShowError />}
       
       {alert.show && <Alert alert={alert} setAlert={setAlert} />}
-      
+
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Artística Dalí Dashboard</h1>
       </div>
 
       <div className="row">
-        {cardsData.map(({ id, color, title, quantity, icon }) => (
+        {cardsData.map(({ id, color, title, quantity, icon, href }) => (
           <Card
             key={id}
             color={color}
             title={title}
             quantity={quantity}
             icon={icon}
+            href={href}
           />
         ))}
       </div>
@@ -89,6 +91,9 @@ export const Dashboard = () => {
       <div className="row">
         <LastDataContainer type="product" data={lastProductCreated} />
         <LastDataContainer type="user" data={lastUserCreated} />
+      </div>
+      <div className="row">
+            <CategoriesChart countByCategory={products?.countByCategory}/>
       </div>
     </div>
   );

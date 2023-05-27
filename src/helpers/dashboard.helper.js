@@ -6,6 +6,7 @@ export const generateCards = (products, users) => {
       color: "primary",
       title: "Total de productos",
       icon: "fa-box",
+      href: "/products"
     },
     {
       id: 2,
@@ -13,6 +14,7 @@ export const generateCards = (products, users) => {
       color: "secondary",
       title: "Total de usuarios",
       icon: "fa-users",
+      href: "/users"
     },
     {
       id: 3,
@@ -20,6 +22,7 @@ export const generateCards = (products, users) => {
       color: "danger",
       title: "Total de categorias",
       icon: "fa-layer-group",
+      href: "/#categories"
     },
   ];
 };
