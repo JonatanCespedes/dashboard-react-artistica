@@ -5,6 +5,7 @@ import { getProducts } from "../../services/products.service";
 import { Loading } from "../../components/Loading";
 import { getUsers } from "../../services/users.service";
 import { generateCards } from "../../helpers/dashboard.helper";
+import { Alert } from "../../components/Alert";
 
 export const Dashboard = () => {
   const [products, setProducts] = useState(null);
@@ -12,6 +13,7 @@ export const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cardsData, setCardsData] = useState([]);
 
+  /* Efecto que se dispara solo al renderizar por primera vez el componente, se encarga de hacer las llamadas a las APIs */
   useEffect(() => {
     setIsLoading(true);
 
@@ -42,6 +44,7 @@ export const Dashboard = () => {
 
   return (
     <div className="container-fluid">
+        <Alert type="danger" message="Probando alerta"/>
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Artística Dalí Dashboard</h1>
       </div>

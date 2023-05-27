@@ -1,6 +1,7 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
+import PropTypes from "prop-types";
 
 export const Layout = ({children}) => {
   return (
@@ -10,8 +11,13 @@ export const Layout = ({children}) => {
         <Header />
         <div id="content">{children}</div>
 
-        <Footer />
+        <Footer autor={"Artística Dalí"}/>
       </div>
     </div>
   );
 };
+
+Layout.propTypes = { 
+  children: PropTypes.object.isRequired,
+}
+

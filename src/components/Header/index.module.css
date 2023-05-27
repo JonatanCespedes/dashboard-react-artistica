@@ -1,0 +1,11 @@
+.userLogo {
+    font-size: 1.5rem;
+}
+
+.avatarLogoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
