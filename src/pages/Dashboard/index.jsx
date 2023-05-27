@@ -37,13 +37,15 @@ export const Dashboard = () => {
         setUsers(usersResponse);
       })
       .catch((error) => {
-        console.error(error)
-        setError(true);
+        console.error(error);
+
         setAlert({
-            message: "Ocurrió un error al obtener la información",
-            type: "danger",
-            show: true,
-        })
+          message: "Ocurrió un error al obtener la información",
+          type: "danger",
+          show: true,
+        });
+
+        setError(true);
       })
       .finally(setIsLoading(false));
   }, []);
@@ -59,12 +61,15 @@ export const Dashboard = () => {
     setCardsData(cards);
   }, [products, users]);
 
-  if (error) return <ShowError />;
   if (isLoading) return <Loading />;
 
   return (
     <div className="container-fluid">
-      <Alert alert={alert} setAlert={setAlert} />
+
+      {error && <ShowError />}
+      
+      {alert.show && <Alert alert={alert} setAlert={setAlert} />}
+      
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Artística Dalí Dashboard</h1>
       </div>

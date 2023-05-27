@@ -30,7 +30,7 @@ export const Alert = ({ alert, setAlert }) => {
     }, [ALERT_TIME]);
 
     return () => clearTimeout(alertTimeOut);
-  }, [alert]);
+  }, [show]);
 
   return (
     <div className={`alert alert-${type} ${styles.alert}`} role="alert">
