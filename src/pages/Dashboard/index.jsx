@@ -13,6 +13,9 @@ export const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cardsData, setCardsData] = useState([]);
 
+  const [lastProductCreated, setLastProductCreated] = useState();
+  const [lastUserCreated, setLastUserCreated] = useState();
+
   /* Efecto que se dispara solo al renderizar por primera vez el componente, se encarga de hacer las llamadas a las APIs */
   useEffect(() => {
     setIsLoading(true);
@@ -34,30 +37,38 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (!products || !users) return;
-
+    const { products: productsList } = products;
+    const { users: usersList } = users;
     const cards = generateCards(products, users);
-    
+    setLastProductCreated(productsList[0]);
+    setLastUserCreated(usersList[0]);
     setCardsData(cards);
-}, [products, users]);
+  }, [products, users]);
 
   if (isLoading) return <Loading />;
 
   return (
     <div className="container-fluid">
-        <Alert type="danger" message="Probando alerta"/>
+      <Alert type="danger" message="Probando alerta" />
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Artística Dalí Dashboard</h1>
       </div>
 
       <div className="row">
         {cardsData.map(({ id, color, title, quantity, icon }) => (
-          <Card key={id} color={color} title={title} quantity={quantity} icon={icon} />
+          <Card
+            key={id}
+            color={color}
+            title={title}
+            quantity={quantity}
+            icon={icon}
+          />
         ))}
       </div>
 
       <div className="row">
-        <LastDataContainer />
-        <LastDataContainer />
+        <LastDataContainer type="product" data={lastProductCreated} />
+        <LastDataContainer type="user" data={lastUserCreated} />
       </div>
     </div>
   );

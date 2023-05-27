@@ -1,6 +1,37 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Loading } from '../Loading';
 
-export const LastDataContainer = ({title, description, image: imageUrl}) => {
+export const LastDataContainer = ({type, data}) => {
+	const [ infoToDisplay, setInfoToDisplay ] = useState({
+		title: "Título",
+		imageUrl: "default.jpg",
+		description: "Una descripcion"
+	});
+	const {title, imageUrl, description} = infoToDisplay;
+
+	useEffect(() => {
+		if(!data) return;
+
+		if (type === "product") {
+			setInfoToDisplay({
+				title: data.name,
+				imageUrl: data.images[0].image,
+				description: data.description
+			})
+		}
+
+		if(type === "user") {
+			setInfoToDisplay({
+				title: data.name,
+				imageUrl: data.avater,
+				description: data.email
+			})
+		}
+	}, [data]);
+
+	if(!data) return <Loading />;
+
     return (
         <div className="col-lg-6 mb-4">
 			<div className="card shadow mb-4">
@@ -19,7 +50,6 @@ export const LastDataContainer = ({title, description, image: imageUrl}) => {
 }
 
 LastDataContainer.propTypes = { 
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	imageUrl: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired,
+	data: PropTypes.object.isRequired,
 }
