@@ -12,8 +12,11 @@ import { CategoriesChart } from "../../components/CategoriesChart";
 export const Dashboard = () => {
   const [products, setProducts] = useState(null);
   const [users, setUsers] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState(false);
+  
   const [cardsData, setCardsData] = useState([]);
   const [alert, setAlert] = useState({
     show: false,
@@ -50,18 +53,20 @@ export const Dashboard = () => {
       })
       .finally(setIsLoading(false));
   }, []);
-
+  
   useEffect(() => {
     if (!products || !users) return;
+
     const { products: productsList } = products;
     const { users: usersList } = users;
+    
     const cards = generateCards(products, users);
-
+    
     setLastProductCreated(productsList.pop());
     setLastUserCreated(usersList.pop());
     setCardsData(cards);
   }, [products, users]);
-
+  
   if (isLoading) return <Loading />;
 
   return (
