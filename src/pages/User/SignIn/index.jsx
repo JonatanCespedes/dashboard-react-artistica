@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../../components/Copyright";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
+import { loginUser } from "../../../services/users.service";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -57,21 +58,30 @@ export default function SignIn() {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+              loginUser(values)
+                .then((res) => {
+                  if (res.ok) {
+                    return res.json();
+                  } else {
+                    return Promise.reject(res);
+                  }
+                })
+                .then(({ token }) =>
+                  window.localStorage.setItem("_token", token)
+                )
+                .catch((error) => alert(JSON.stringify(error)));
 
-                setSubmitting(false);
-              }, 400);
+              setSubmitting(false);
             }}
           >
             {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting  
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
             }) => (
               <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
