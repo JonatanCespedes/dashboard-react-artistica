@@ -10,22 +10,26 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Copyright } from "../../../components/Copyright";
 import { Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthProvider";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const { register, currentUser } = useAuth();
+  const navigate = useNavigate();
+  if(currentUser) return navigate("/");
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -33,7 +37,7 @@ export default function SignUp() {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registrate
           </Typography>
 
           <Formik
@@ -72,7 +76,7 @@ export default function SignUp() {
               } else if (values.pass !== values.pass2) {
                 errors.pass2 = "Las contraseñas no coinciden";
               }
-              console.log(values.terms)
+              console.log(values.terms);
 
               if (!values.terms) {
                 errors.terms = "Debes aceptar los terminos y condiciones";
@@ -81,12 +85,14 @@ export default function SignUp() {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
+              const data = {
+                ...values,
+                terms: values && "on",
+                rol: 0,
+              };
+              register(data);
 
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-
-                setSubmitting(false);
-              }, 400);
+              setSubmitting(false);
             }}
           >
             {({
@@ -185,11 +191,9 @@ export default function SignUp() {
                       }
                       label="Acepto los terminos y condiciones"
                     />
-                      {errors.terms && touched.terms && (
-                        <small style={{color: "red"}}> { errors.terms } </small>
-                      ) 
-                      
-                      }
+                    {errors.terms && touched.terms && (
+                      <small style={{ color: "red" }}> {errors.terms} </small>
+                    )}
                   </Grid>
                 </Grid>
                 <Button
@@ -211,7 +215,6 @@ export default function SignUp() {
             )}
           </Formik>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

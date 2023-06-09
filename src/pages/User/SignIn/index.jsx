@@ -10,23 +10,26 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Copyright } from "../../../components/Copyright";
 import { Formik } from "formik";
-import { Link } from "react-router-dom";
-import { loginUser } from "../../../services/users.service";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthProvider";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const { currentUser, login } = useAuth();
+  const navigate = useNavigate();
+  if(currentUser) return navigate("/");
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -34,7 +37,7 @@ export default function SignIn() {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Ingresá
           </Typography>
 
           <Formik
@@ -58,18 +61,7 @@ export default function SignIn() {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              loginUser(values)
-                .then((res) => {
-                  if (res.ok) {
-                    return res.json();
-                  } else {
-                    return Promise.reject(res);
-                  }
-                })
-                .then(({ token }) =>
-                  window.localStorage.setItem("_token", token)
-                )
-                .catch((error) => alert(JSON.stringify(error)));
+              login(values)
 
               setSubmitting(false);
             }}
@@ -110,10 +102,6 @@ export default function SignIn() {
                   onBlur={handleBlur}
                   helperText={errors.pass && touched.pass && errors.pass}
                 />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
                 <Button
                   type="submit"
                   fullWidth
@@ -133,7 +121,6 @@ export default function SignIn() {
             )}
           </Formik>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { SidebarLogo } from "./components/Logo";
 import Logo from "../../assets/logo.png";
 import { NavItem } from "./components/NavItem";
+import { useAuth } from "../../context/AuthProvider";
 
 const TITLE = "Dashboard Artística";
 
 export const Sidebar = () => {
+  const { currentUser } = useAuth();
   return (
     <>
       {/* <!-- Sidebar --> */}
@@ -14,31 +16,35 @@ export const Sidebar = () => {
         id="accordionSidebar"
       >
         {/* <!-- Sidebar - Brand --> */}
-        <SidebarLogo brand="Artistica Dalí" logo={Logo} />        
+        <SidebarLogo brand="Artistica Dalí" logo={Logo} />
         {/* <!-- Divider --> */}
-        <hr className="sidebar-divider my-0" />
+        {currentUser && (
+          <>
+            <hr className="sidebar-divider my-0" />
 
-        {/* <!-- Nav Item - Dashboard --> */}
-        <li className="nav-item active">
-          <a className="nav-link" href="/">
-            <i className="fas fa-fw fa-tachometer-alt"></i>
-            <span>{TITLE}</span>
-          </a>
-        </li>
+            {/* <!-- Nav Item - Dashboard --> */}
+            <li className="nav-item active">
+              <a className="nav-link" href="/">
+                <i className="fas fa-fw fa-tachometer-alt"></i>
+                <span>{TITLE}</span>
+              </a>
+            </li>
 
-        {/* <!-- Divider --> */}
-        <hr className="sidebar-divider" />
+            {/* <!-- Divider --> */}
+            <hr className="sidebar-divider" />
 
-        {/* <!-- Heading --> */}
-        <div className="sidebar-heading">Administrar</div>
+            {/* <!-- Heading --> */}
+            <div className="sidebar-heading">Administrar</div>
 
-        {/* <!-- Nav Items --> */}
-       
-        <NavItem href="/productos" icon="fa-box" name="ABM - Productos"/>
-        <NavItem href="/usuarios" icon="fa-users" name="ABM - Usuarios"/>
+            {/* <!-- Nav Items --> */}
 
-        {/* <!-- Divider --> */}
-        <hr className="sidebar-divider d-none d-md-block" />
+            <NavItem href="/products" icon="fa-box" name="Productos" />
+            <NavItem href="/users" icon="fa-users" name="Usuarios" />
+
+            {/* <!-- Divider --> */}
+            <hr className="sidebar-divider d-none d-md-block" />
+          </>
+        )}
       </ul>
       {/* <!-- End of Sidebar --> */}
     </>

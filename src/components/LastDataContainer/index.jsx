@@ -53,5 +53,5 @@ export const LastDataContainer = ({type, data}) => {
 
 LastDataContainer.propTypes = { 
 	type: PropTypes.string.isRequired,
-	data: PropTypes.object.isRequired,
+	data: PropTypes.object,
 }
