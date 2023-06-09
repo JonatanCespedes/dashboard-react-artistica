@@ -70,17 +70,27 @@ export const AuthProvider = ({ children }) => {
         if (res.ok) {
           return res.json();
         } else {
-          return Promise.reject(res);
+          return Promise.reject(res.json());
         }
       })
       .then(({ token }) => {
+
         window.localStorage.setItem("_token", token);
+
         const decodedToken = token ? jwt_decode(token) : null;
         const { user } = decodedToken ? decodedToken.payload : null;
         setCurrentUser(user);
+
         return navigate("/");
       })
-      .catch((error) => alert(JSON.stringify(error)))
+      .catch((error) => {
+        console.log(error)
+        setAlert({
+          message: error,
+          type: "danger",
+          show: true,
+        })
+      })
       .finally(() => setLoading(false));
   };
 

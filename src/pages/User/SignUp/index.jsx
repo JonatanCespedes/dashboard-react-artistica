@@ -21,6 +21,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const { register, currentUser } = useAuth();
   const navigate = useNavigate();
+  
   if(currentUser) return navigate("/");
 
   return (
@@ -87,9 +88,10 @@ export default function SignUp() {
             onSubmit={(values, { setSubmitting }) => {
               const data = {
                 ...values,
-                terms: values && "on",
+                terms: values.terms && "on",
                 rol: 0,
               };
+
               register(data);
 
               setSubmitting(false);
